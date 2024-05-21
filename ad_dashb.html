@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 225px;
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            height: 800px;
+            padding: 20px 5px;
+            color: white;
+            margin-left: 30px;
+            border-radius: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar .logo {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .sidebar .logo img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: large;
+        }
+
+        .sidebar ul li {
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+
+        .sidebar ul li img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .teacher-info {
+            top: 20px;
+            right: 20px;
+            display: flex;
+            margin-top: 10px;
+            padding-top: 30px;
+        }
+
+        .teacher-name {
+            padding-top: 15px;
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+            font-size: large;
+            padding-right: 15px;
+        }
+
+        .teacher-info img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .dashboard-top-container{
+            height: 600px;
+        }
+        .welcome-message {
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to right, #b491ef, #7b47ed);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 50px;
+            margin-left: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            height: 140px;
+        }
+        .class-overview{
+            margin-top: 30px;
+            font-size: large;
+        }
+
+        .class-overview h2{
+            margin-left: 25px;
+        }
+
+        .tile-row {
+            display: flex;
+            justify-content: space-between;
+            width: 85.5%;
+            margin-left: 5px;
+        }
+
+        .tile {
+            position: relative;
+            width: 230px;
+            height: 60px;
+            margin: 20px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .circle {
+            position: absolute;
+            left: 20px;
+            top: 50%; 
+            transform: translateY(-50%); 
+            width: 60px;
+            height: 60px;
+            background: #7b47ed;
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            border-radius: 50%;
+        }
+
+        .circle.with-image {
+            background-image: url('path/to/image.png');
+            background-size: cover;
+        }
+
+        .tile-row .tile {
+            margin-right: 5px; 
+        }
+
+        .tile-row .tile:last-child {
+            margin-right: 0;
+        }
+        .check-bar {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-left: 25px;
+            width: 80%;
+            height: 80px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
+        .check-bar button {
+            font-size: large;
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 30%;
+            height: 50px;
+        }
+
+        .check-bar button:hover {
+            background-color: #6a3ac2;
+        }
+        .scoreboard {
+            padding: 25px;
+        }
+
+        .scoreboard h2 {
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .scoreboard-tile {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 95%;
+            height: 450px;
+        }
+
+        /* Initially hide all main content */
+        .main-content:not(#dashboard){
+            display: none;
+        }
+
+        .progress-container {
+            display:flex;
+        }
+
+        .class-progress{
+            margin-left: 165px;
+        }
+        
+        .student-progress,
+        .class-progress {
+            font-size: large;
+            padding-left: 25px;
+            margin-top: 30px;
+            width: 400px; 
+        }
+
+        .student-progress h3,
+        .class-progress h3 {
+            margin-bottom: 10px;
+            display: inline-block;
+            transform: translateY(4px);
+        }
+
+        .student-progress .small-button,
+        .class-progress .class-small-button {
+            font-size:small;
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .student-progress .small-button:hover,
+        .class-progress .class-small-button:hover {
+            background-color: #6a3ac2;
+        }
+
+        .progress-chart,
+        .class-progress-chart {
+            width: 440px;
+            height: 400px;
+            background-color: white;
+            border-radius: 10px;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .resource-content{
+            margin-top: 130px;
+            margin-left: 40px;
+        }
+        .resource-content h2{
+            margin-bottom: 40px;
+        }
+        .resource-tiles {
+            display: flex;
+        }
+
+        .resource-small-tile {
+            width: 175px; 
+            height: 175px;
+            background-color: #fafafa; /* Placeholder color */
+            border-radius: 10px; 
+            margin-right: 60px;
+            position: relative; /* Position relative for absolute positioning of color fill */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            margin-top: -10px;
+        }
+
+        .resource-small-tile::before {
+            content: "";
+            position: absolute;
+            bottom: 0; 
+            width: 100%; 
+            height: 30%; 
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            border-radius: 0 0 10px 10px;
+        }
+
+        .resource-recent-uploads{
+            margin-top: 50px;
+        }
+
+   
+        .homework-box {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px auto;
+            margin-left: 12%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 60%;
+        }
+
+
+        .parameter {
+            margin-bottom: 15px;
+        }
+
+        .parameter label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .parameter select, .parameter input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px;
+        }
+
+        .parameter select {
+            height: 34px;
+        }
+
+        .parameter input[type="text"],
+        .parameter input[type="number"] {
+            height: 34px;
+            padding: 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 22px);
+        }
+
+        #generate-btn {
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: #fff;
+            border: none;
+            margin-left: 36%;
+            border-radius: 5px;
+            padding: 15px 80px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #generate-btn:hover {
+            background-color: #6a3ac2;
+        }
+
+        .result-scoreboard {
+            padding: 25px;
+        }
+
+        .result-scoreboard h2 {
+            padding-top: 30px;
+            margin-left: 34%;
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .result-scoreboard-tile {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            height: 400px;
+        }
+
+        .contacted-list {
+            padding: 25px;
+        }
+
+        .contacted-list h2 {
+            padding-top: 30px;
+            margin-left: 27%;
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .contacted-list-tile {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            height: 400px; 
+        }
+
+        .feedback-heading {
+            text-align: center;
+            margin-top: 10%;
+        }
+  
+        .profile-tile {
+            position: relative;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            width: 560px;
+            margin-top: 100px;
+            margin-left: 80px;
+            height: auto;
+        }
+
+
+        .profile-picture {
+            display: block;
+            margin: 0 auto 20px;
+            width: 100px; 
+            height: 100px;
+            border-radius: 50%; 
+        }
+
+        .sub-tile {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 2px solid #f5f5f5; 
+            width: 80%; 
+            margin: 0 auto;
+        }
+
+        .sub-tile p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        #update-profile-btn {
+    left: 50%; 
+    transform: translateX(-50%); 
+    background: #7b47ed;
+    background: linear-gradient(to bottom, #b491ef, #7b47ed);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s; 
+    margin-top: 5%;
+    margin-left: 50%;
+    width: 40%;
+    height: 45px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#update-profile-btn:hover {
+    background-color: #6a3ac2;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); 
+}
+
+.edit-button {
+    background-color: #f0e9ff; 
+    color: #7b47ed; 
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #e1d2ff; 
+}
+
+
+.sub-tile .profile-detail .info-label {
+    font-weight: bold;
+}
+
+.sub-tile .profile-detail p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.sub-tile .profile-detail .edit-button {
+    margin-left: 10px;
+}
+
+
+.settings-tile {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 150px;
+    margin-left: 60px;
+    width: 420px;
+    height: 420px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.settings-tile h2 {
+    text-align: center;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 10px;
+}
+
+.settings-tile label {
+    display: inline-block;
+    width: 40%;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.settings-tile input[type="password"] {
+    display: inline-block;
+    width: 58%;
+    padding: 8px 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+#set-password-btn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 60px;
+    background-color: #7b47ed;
+    background: linear-gradient(to bottom, #b491ef, #7b47ed);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    width: 220px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#set-password-btn:hover {
+    background-color: #6a3ac2;
+}
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sidebarLinks = document.querySelectorAll('.sidebar ul li a');
+            const mainContents = document.querySelectorAll('.main-content');
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    // Hide all main contents
+                    mainContents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+
+                    // Show the selected main content
+                    const targetId = this.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        targetContent.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <img src="https://static.vecteezy.com/system/resources/previews/003/429/733/original/cute-hippo-mascot-character-logo-cartoon-icon-illustration-vector.jpg" alt="Logo">
+            </div>
+            <ul>
+                <li><img src="dashboard_icon.png" alt="Dashboard Icon"><a href="#" data-target="dashboard">Dashboard</a></li>
+                <li><img src="homework_icon.png" alt="Homework Icon"><a href="#" data-target="homework">Home work</a></li>
+                <li><img src="resources_icon.png" alt="Resources Icon"><a href="#" data-target="resources">Resources</a></li>
+                <li><img src="result_icon.png" alt="Result Icon"><a href="#" data-target="result">Result</a></li>
+                <li><img src="contacted_icon.png" alt="Contacted Icon"><a href="#" data-target="contacted">Contacted</a></li>
+                <li><img src="feedback_icon.png" alt="Feedback Icon"><a href="#" data-target="feedback">Feedback</a></li>
+                <li><img src="profile_icon.png" alt="Profile Icon"><a href="#" data-target="profile">My Profile</a></li>
+                <li><img src="settings_icon.png" alt="Settings Icon"><a href="#" data-target="settings">Settings</a></li>
+                <li><img src="logout_icon.png" alt="Logout Icon"><a href="#" data-target="logout">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="main-content" id="dashboard">
+            <div class="dashboard-top-container">
+                <div class="welcome-message">
+
+                    <h2>Welcome Message</h2>
+                    <p>This is a new big rectangular tile displaying a welcome message.</p>
+                </div>
+                <div class="class-overview">
+                    <h2>Class Overview</h2>
+                    <div class="tile-row">
+                        <div class="tile"><div class="circle"></div></div>
+                        <div class="tile"><div class="circle"></div></div>
+                        <div class="tile"><div class="circle"></div></div>
+                    </div>
+                </div>
+                <div class="check-bar">
+                    <button>Create new test</button>
+                    <button>Check results</button>
+                    <button>Check status</button>
+                </div>
+            </div>
+            <div class="scoreboard">
+                <h2>Scoreboard</h2>
+                <div class="scoreboard-tile">
+
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="student-progress">
+                    <h3>Student Progress</h3>
+                    <div class="buttons-container">
+                        <button class="small-button">Button 1</button>
+                        <button class="small-button">Button 2</button>
+                        <button class="small-button">Button 3</button>
+                    </div>
+                    <div class="progress-chart"></div>
+                </div>
+                <div class="class-progress">
+                    <h3>Class Progress</h3>
+                    <div class="class-button-container">
+                        <button class="class-small-button">Single Button</button>
+                    </div>
+                    <div class="class-progress-chart"></div>
+                </div>
+            </div>         
+        </div>
+
+        <div class="main-content" id="homework">
+            <div class="homework-box">
+                <div class="parameter">
+                    <label for="class">Class:</label>
+                    <select id="class">
+                        <option value="class1">Class 1</option>
+                        <option value="class2">Class 2</option>
+
+                    </select>
+                </div>
+                <div class="parameter">
+                    <label for="topic">Topic:</label>
+                    <input type="text" id="topic" placeholder="Enter Topic">
+                </div>
+                <div class="parameter">
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <div class="parameter">
+                    <label for="num-questions">Number of Questions:</label>
+                    <input type="number" id="num-questions" min="1">
+                </div>
+                <button id="generate-btn">Generate</button>
+            </div>
+        </div>
+        
+        <div class="main-content" id="resources">
+            <div class="resource-content">
+                <div class="resource-upload-units">
+                    <h2>Upload Units</h2>
+                    <div class="resource-tiles">
+                        <div class="resource-small-tile"></div>
+                        <div class="resource-small-tile"></div>
+                        <div class="resource-small-tile"></div>
+                    </div>
+                </div>
+                <div class="resource-recent-uploads">
+                    <h2>Recent Uploads</h2>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="main-content" id="result">
+            <div class="result-scoreboard">
+                <h2>Scoreboard</h2>
+                <div class="result-scoreboard-tile">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content" id="contacted">
+            <div class="contacted-list">
+                <h2>List of students contacted</h2>
+                <div class="contacted-list-tile">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content" id="feedback">
+            <h1 class="feedback-heading">Feedbacks Received</h1>
+
+        </div>    
+
+        <div class="main-content" id="profile">
+            <div class="profile-tile">
+                <img src="https://img.freepik.com/free-photo/view-3d-female-teacher_23-2150710016.jpg" alt="Profile Picture" class="profile-picture">
+                
+                <div class="sub-tile">
+                    <div class="profile-detail">
+                        <p><span class="info-label">Name:</span></p>
+                        <p><span class="info">John Doe</span> <button class="edit-button" data-field="name">Edit</button></p>
+                    </div>
+                    <div class="profile-detail">
+                        <p><span class="info-label">Email:</span></p>
+                        <p><span class="info">john.doe@example.com</span> <button class="edit-button" data-field="email">Edit</button></p>
+                    </div>
+                    <div class="profile-detail">
+                        <p><span class="info-label">Phone Number:</span></p>
+                        <p><span class="info">+1234567890</span> <button class="edit-button" data-field="phone">Edit</button></p>
+                    </div>
+                    <div class="profile-detail">
+                        <p><span class="info-label">Subject:</span></p>
+                        <p><span class="info">...</span> <button class="edit-button" data-field="subject">Edit</button></p>
+                    </div>
+                    <div class="profile-detail">
+                        <p><span class="info-label">Classes Assigned:</span></p>
+                        <p><span class="info">...</span> <button class="edit-button" data-field="classes">Edit</button></p>
+                    </div>
+                </div>
+                
+                
+                <button id="update-profile-btn">Update Your Profile</button>
+            </div>
+        </div>
+          
+        <div class="main-content" id="settings">
+            <div class="settings-tile">
+                <h2>Change Your Password</h2>
+                <div>
+                    <label for="old-password">Old Password:</label>
+                    <input type="password" id="old-password" name="old-password">
+                </div>
+                <div>
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password" name="new-password">
+                </div>
+                <div>
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password">
+                </div>
+                <button id="set-password-btn">Set Password</button>
+            </div>
+        </div>
+        
+
+        <div class="teacher-info">
+            <div class="teacher-name">John Doe</div>
+            <img src="teacher_icon.png" alt="Teacher Icon">
+        </div>
+    </div>
+</body>
+</html>
