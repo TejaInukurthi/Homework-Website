@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 225px;
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            height: 800px;
+            padding: 20px 5px;
+            color: white;
+            margin-left: 30px;
+            border-radius: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar .logo {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .sidebar .logo img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: large;
+        }
+
+        .sidebar ul li {
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+
+        .sidebar ul li img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .teacher-info {
+            top: 20px;
+            right: 20px;
+            display: flex;
+            margin-top: 10px;
+            padding-top: 30px;
+        }
+
+        .teacher-name {
+            padding-top: 15px;
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+            font-size: large;
+            padding-right: 15px;
+        }
+
+        .teacher-info img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .welcome-message {
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to right, #b491ef, #7b47ed);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 50px;
+            margin-left: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            height: 140px;
+        }
+
+        .statistic-tile {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-left: 25px;
+            width: 500px;
+            height: 450px;
+        }
+
+        .statistic-tile h2 {
+            padding-bottom: 10px;
+        }
+
+
+        /* Initially hide all main content */
+        .main-content:not(#dashboard){
+            display: none;
+        }
+
+        .progress-container {
+            display:flex;
+        }
+
+        .class-progress{
+            margin-left: 165px;
+        }
+        
+        .student-progress,
+        .class-progress {
+            font-size: large;
+            padding-left: 25px;
+            margin-top: 30px;
+            width: 230px;
+        }
+
+        .student-progress h3,
+        .class-progress h3 {
+            margin-bottom: 10px;
+            display: inline-block;
+            transform: translateY(4px);
+        }
+
+        .student-progress .small-button,
+        .class-progress .class-small-button {
+            font-size:small;
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .student-progress .small-button:hover,
+        .class-progress .class-small-button:hover {
+            background-color: #6a3ac2;
+        }
+
+        .student-progress-chart,
+        .class-progress-chart {
+            width: 310px;
+            height: 400px;
+            background-color: white;
+            border-radius: 10px;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-progress-chart{
+            width:370px;
+        }
+
+        .buttons-container{
+            width: 300px;
+        }
+   
+        .settings-tile {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 150px;
+            margin-left: 60px;
+            width: 420px;
+            height: 420px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative; 
+        }
+
+        .settings-tile h2 {
+            text-align: center;
+            border-bottom: 1px solid #cccccc;
+            padding-bottom: 10px;
+        }
+
+        .settings-tile label {
+            display: inline-block;
+            width: 40%;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .settings-tile input[type="password"] {
+            display: inline-block;
+            width: 58%;
+            padding: 8px 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        #set-password-btn {
+            position: absolute; 
+            left: 50%;
+            transform: translateX(-50%); 
+            bottom: 60px; 
+            background-color: #7b47ed;
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            width: 220px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        #set-password-btn:hover {
+            background-color: #6a3ac2;
+        }
+        
+        .management-dashboard-container {
+            display: flex;
+            justify-content: space-between;
+            margin-left: 25px;
+        }
+
+        .class-details {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            margin-right: 15px;
+            width: calc(50% - 15px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .class-details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .class-details-edit-button {
+            background-color: #7b47ed;
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: -3px;
+            margin-left: auto; 
+            transform: translateY(-10%); 
+        }
+
+        .class-details-edit-button:hover {
+            background-color: #6a3ac2;
+        }
+
+        
+        .class-selection {
+            margin-top: 20px;
+        }
+
+        .class-selection label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .class-selection select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            padding: 8px 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .class-selection select::-ms-expand {
+            display: none;
+        }
+
+        .class-selection select::after {
+            content: '\25BC';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .class-selection select option {
+            background-color: #ffffff;
+            color: #333333;
+        }
+
+        .section-selection {
+            margin-top: 20px; 
+        }
+
+        .section-selection label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .section-selection input[type="number"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+       
+        .section-selection select::-ms-expand {
+            display: none;
+        }
+
+        .section-selection select::after {
+            content: '\25BC'; 
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .section-selection select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            padding: 8px 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        
+        .section-selection select option {
+            background-color: #ffffff;
+            color: #333333;
+        }
+
+        .subject-selection {
+            margin-top: 20px;
+        }
+
+        .subject-selection label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .subject-selection input[type="number"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .subject-selection input[type="number"]::-webkit-inner-spin-button,
+        .subject-selection input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .subject-selection input[type="number"]::-webkit-outer-spin-button,
+        .subject-selection input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .subject-selection select::-ms-expand {
+            display: none;
+        }
+
+        .subject-selection select::after {
+            content: '\25BC'; 
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .subject-selection select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            padding: 8px 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .subject-selection select option {
+            background-color: #ffffff;
+            color: #333333;
+        }
+
+        .class-details-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .class-details-button button {
+            background-color: #7b47ed;
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 40px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .class-details-button button:hover {
+            background-color: #6a3ac2;
+        }
+
+        .class-subject-inputs{
+            margin-top: 30px;
+        }
+
+        .class-subject-inputs input[type="text"] {
+            width: calc(60% - 20px);
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            margin-bottom: 10px; 
+        }
+
+        .subject-post-button {
+            background-color: #7b47ed;
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .subject-post-button:hover {
+            background-color: #6a3ac2;
+        }
+
+
+        .staff-details {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            margin-left: 15px; 
+            width: calc(50% - 15px); 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 350px; 
+            overflow-y: auto;
+        }
+
+        .staff-details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .staff-details-edit-button {
+            background-color: #7b47ed;
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: -3px;
+            margin-left: auto; 
+            transform: translateY(-10%); 
+        }
+
+        .staff-details-edit-button:hover {
+            background-color: #6a3ac2;
+        }
+
+        .management-dashboard-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .class-and-staff {
+            display: flex; 
+        }
+
+        .class-details,
+        .staff-details {
+            width: 50%; 
+        }
+
+        .student-details {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 45%;
+            margin-top: 30px; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .student-details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ccc; 
+        }
+
+        .student-details-edit-button {
+            background-color: #7b47ed;
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: -3px;
+            margin-left: auto;
+            transform: translateY(-10%);
+        }
+
+        .student-details-edit-button:hover {
+            background-color: #6a3ac2;
+        }
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sidebarLinks = document.querySelectorAll('.sidebar ul li a');
+            const mainContents = document.querySelectorAll('.main-content');
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    // Hide all main contents
+                    mainContents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+
+                    // Show the selected main content
+                    const targetId = this.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        targetContent.style.display = 'block';
+                    }
+                });
+            });
+
+        const enterButton = document.getElementById('class-details-button-id');
+        enterButton.addEventListener('click', function() {
+        const numOfSubjects = parseInt(document.getElementById('subjects').value);
+        const classSubjectInputsContainer = document.getElementById('class-subject-inputs');
+        classSubjectInputsContainer.innerHTML = ''; // Clear previous inputs
+
+        for (let i = 1; i <= numOfSubjects; i++) {
+            const inputLabel = document.createElement('label');
+            inputLabel.textContent = 'Enter Subject ' + i + ':';
+            
+            const inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.name = 'class_subject' + i;
+            inputField.style.marginBottom = '20px'; 
+
+            inputLabel.style.marginRight = '20px'; 
+
+            const br = document.createElement('br');
+
+            classSubjectInputsContainer.appendChild(inputLabel);
+            classSubjectInputsContainer.appendChild(inputField);
+            classSubjectInputsContainer.appendChild(br);
+        }
+
+        // Create and append the "Post" button after the loop
+        const postButton = document.createElement('button');
+        postButton.textContent = 'Post';
+        postButton.classList.add('small-button'); 
+        postButton.classList.add('subject-post-button'); // Add a class for additional styling if needed
+        classSubjectInputsContainer.appendChild(postButton);
+
+        // Center the "Post" button
+        postButton.style.display = 'block';
+        postButton.style.margin = '0 auto';
+    });
+});
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <img src="https://static.vecteezy.com/system/resources/previews/003/429/733/original/cute-hippo-mascot-character-logo-cartoon-icon-illustration-vector.jpg" alt="Logo">
+            </div>
+            <ul>
+                <li><img src="dashboard_icon.png" alt="Dashboard Icon"><a href="#" data-target="dashboard">Dashboard</a></li>
+                <li><img src="statistics_icon.png" alt="Statistics Icon"><a href="#" data-target="statistics">Statistics</a></li>
+                <li><img src="settings_icon.png" alt="Settings Icon"><a href="#" data-target="settings">Settings</a></li>
+                <li><img src="logout_icon.png" alt="Logout Icon"><a href="#" data-target="logout">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="main-content" id="dashboard">
+            <div class="welcome-message">
+                <!-- Your tile content goes here -->
+                <h1>Welcome back, Admin</h1>
+                <p>This is a new big rectangular tile displaying a welcome message.</p>
+            </div>
+
+
+            <div class="management-dashboard-container">
+                <div class="class-and-staff">
+                    <div class="class-details">
+                        <div class="class-details-header">
+                            <h3>Class</h3>
+                            <button class="class-details-edit-button">Edit</button>
+                        </div>
+                        <div class="class-selection">
+                            <label for="classes">Select Class:</label>
+                            <select name="classes" id="classes">
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="section-selection">
+                            <label for="sections">Select number of sections:</label>
+                            <input type="number" id="sections" name="sections" min="1">
+                        </div>
+                        <div class="subject-selection">
+                            <label for="subjects">Number of subjects:</label>
+                            <input type="number" id="subjects" name="subjects" min="1">
+                        </div>
+                        <div class="class-details-button">
+                            <button id="class-details-button-id">Enter</button>
+                        </div>
+                        <div class="class-subject-inputs" id="class-subject-inputs"></div>
+                    </div>
+            
+                    <!-- Staff details Tile -->
+                    <div class="staff-details">
+                        <div class="staff-details-header">
+                            <h3>Staff</h3>
+                            <button class="staff-details-edit-button">Edit</button>
+                        </div>
+                        <p>Staff details here.</p>
+                    </div>
+                </div>
+
+                <div class="student-details">
+                    <div class="student-details-header">
+                        <h3>Student Details</h3>
+                        <button class="student-details-edit-button">Edit</button>
+                    </div>
+                    <p>Student details here.</p>
+                </div>                
+            </div>
+        </div>            
+
+        <div class="main-content" id="statistics">
+            <div class="statistic-tile">
+                <h2>Overall Statistics</h2>
+            </div>
+
+            <div class="progress-container">
+                <div class="student-progress">
+                    <h3>Student Progress</h3>
+                    <div class="buttons-container">
+                        <button class="small-button">Button 1</button>
+                        <button class="small-button">Button 2</button>
+                        <button class="small-button">Button 3</button>
+                    </div>
+                    <div class="student-progress-chart"></div>
+                </div>
+                <div class="class-progress">
+                    <h3>Class Progress</h3>
+                    <div class="class-button-container">
+                        <button class="class-small-button">Single Button</button>
+                    </div>
+                    <div class="class-progress-chart"></div>
+                </div>
+            </div>
+    
+        </div>
+
+          
+        <div class="main-content" id="settings">
+            <div class="settings-tile">
+                <h2>Change Your Password</h2>
+                <div>
+                    <label for="old-password">Old Password:</label>
+                    <input type="password" id="old-password" name="old-password">
+                </div>
+                <div>
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password" name="new-password">
+                </div>
+                <div>
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password">
+                </div>
+                <button id="set-password-btn">Set Password</button>
+            </div>
+        </div>
+        
+
+        <div class="teacher-info">
+            <div class="teacher-name">John Doe</div>
+            <img src="teacher_icon.png" alt="Teacher Icon">
+        </div>
+    </div>
+</body>
+</html>
