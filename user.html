@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f2f2f2;
+            padding: 15px 20px;
+            box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            margin-right: auto;
+        }
+
+        .logo img {
+            width: 50px;
+            height: auto; 
+            margin-left: 30px;
+        }
+
+
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-left: 40px;
+            font-size: large;
+            color: #7b47ed;
+            font-weight: bold;
+        }
+        .profile span {
+            margin-right: 10px; 
+        }
+
+
+        .profile img {
+            border-radius: 50%;
+            margin-right: 25px;
+        }
+
+        .nav-wrapper {
+            flex-grow: 1; 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: large;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            margin-left: 150px;
+        }
+
+        .nav-links li {
+            margin: 0 45px; 
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #7b47ed;
+        }
+
+        .content {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 450px;
+            padding: 0 100px;
+        }
+
+        .content-tile {
+            position: relative;
+            width: 90%; 
+            height: 80%; 
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            border-radius: 30px; 
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); 
+        }
+
+        .learn-now-button {
+            position: absolute;
+            top: 70%; 
+            left: 30%; 
+            transform: translate(-50%, -50%); 
+            background-color: #white;
+            color: #7b47ed;
+            padding: 15px 45px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px; 
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .homework {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .tiles-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 80px;
+            justify-content: center; 
+            margin: 0 auto; 
+            width: 600px; 
+            max-width: 100%; 
+        }
+
+        .tile {
+            width: 250px;
+            height: 200px;
+            padding: 0;
+            border: none; 
+            background: none;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.3s ease; 
+            border-radius: 15px; 
+        }
+
+        .tile:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .tile img {
+            width: 90%; 
+            height: 100%; 
+            border-radius: 10px; 
+            object-fit: cover; 
+        }
+
+        .testscore{
+            text-align: center;
+        }
+        .resources{
+            text-align: center;
+        }
+        .testscore {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .test-box {
+            width: 800px;
+            height: 350px;
+            background: #7b47ed; 
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            border: 2px solid #ccc; 
+            border-radius: 10px; 
+            margin: 20px auto;
+            padding: 20px; 
+        }
+
+
+
+        /*footer here*/
+        footer {
+            background: #7b47ed; /* Fallback color */
+            background: linear-gradient(to bottom, #b491ef, #7b47ed);
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="path/to/your/logo.png" alt="Logo">
+        </div>
+        <div class="nav-wrapper">
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" aria-label="Homework">Homework</a></li>
+                    <li><a href="#" aria-label="Test Score">Test Score</a></li>
+                    <li><a href="#" aria-label="Resources">Resources</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="profile">
+            <span>Student Name</span>
+            <img src="https://img.freepik.com/premium-vector/laughing-boy-avatar-funny-kid-profile-picture_176411-3537.jpg" alt="Profile Picture" width="50" height="50">
+        </div>
+    </div>
+    
+    
+    <div class="content">
+        <div class="content-tile"></div>
+        <button class="learn-now-button">Learn Now</button>
+    </div>
+
+    <div class="homework">
+        <h1>Home Work</h1>
+        <div class="tiles-container">
+            <a href="C:\Users\Work\Desktop\Work\App\UserSide\user_testpage.html" class="tile"><img src="https://img.freepik.com/free-vector/boy-doing-homework-with-books-white-background_1308-93460.jpg" alt="Tile 1"></a>
+            <a href="C:\Users\Work\Desktop\Work\App\UserSide\user_testpage.html" class="tile"><img src="https://img.freepik.com/free-vector/boy-doing-homework-with-books-white-background_1308-93460.jpg" alt="Tile 2"></a>
+            <a href="C:\Users\Work\Desktop\Work\App\UserSide\user_testpage.html" class="tile"><img src="https://img.freepik.com/free-vector/boy-doing-homework-with-books-white-background_1308-93460.jpg" alt="Tile 3"></a>
+            <a href="C:\Users\Work\Desktop\Work\App\UserSide\user_testpage.html" class="tile"><img src="https://img.freepik.com/free-vector/boy-doing-homework-with-books-white-background_1308-93460.jpg" alt="Tile 4"></a>
+            <a href="C:\Users\Work\Desktop\Work\App\UserSide\user_testpage.html" class="tile"><img src="https://img.freepik.com/free-vector/boy-doing-homework-with-books-white-background_1308-93460.jpg" alt="Tile 5"></a>
+            <a href="C:\Users\Work\Desktop\Work\App\UserSide\user_testpage.html" class="tile"><img src="https://img.freepik.com/free-vector/boy-doing-homework-with-books-white-background_1308-93460.jpg" alt="Tile 6"></a>
+        </div>
+    </div>
+    <div class="testscore">
+        <h1>Test Score</h1>
+        <div class="test-box">
+
+        </div>
+    </div>
+    <div class="resources">
+        <h1>Resources</h1>
+    </div>
+
+
+
+    <!--footer here-->
+    <footer>
+    </footer>    
+</body>
+</html>
